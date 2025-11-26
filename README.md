@@ -106,8 +106,3 @@ Contributions are welcome! To improve the script:
 3. Commit changes (`git commit -m "Add X feature"`).  
 4. Push to the branch (`git push origin feature/your-feature`).  
 5. Open a Pull Request.  
-
-Ideas for improvement:  
-- Add support for more card types (Xyz, Synchro, Pendulum).  
-- Include a default template for missing artwork.  
-- Add batch processing for large databases.  
