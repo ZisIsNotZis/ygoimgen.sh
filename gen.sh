@@ -19,7 +19,7 @@ replace(desc,char(10),''),
 case when type&0x1then atk else''end,
 case when type&0x1then def else''end
 from datas join texts on datas.id=texts.id;"|while IFS='|' read -r type name att lv lvtype id race sp desc atk def;do
-	if ! [ -a pics/$id.jpg ];then
+	if [ ! -a pics/$id.jpg -a -a pico/$id.* ];then
 		echo $id
 		convert -font WenquanYi-Micro-Hei textures/card_$type.png \
 		-pointsize $NAMESZ -antialias -annotate +30+$NAMEY "`sed 's:\(\S\{20\}\):\1\n:g'<<<$name`" \
