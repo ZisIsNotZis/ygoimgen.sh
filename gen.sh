@@ -19,17 +19,17 @@ replace(desc,char(10),''),
 case when type&0x1then atk else''end,
 case when type&0x1then def else''end
 from datas join texts on datas.id=texts.id;"|while IFS='|' read -r type name att lv lvtype id race sp desc atk def;do
-	if [ ! -a pics/$id.jpg -a -a pico/$id.* ];then
+	if ! [ -a pics/$id.jpg ];then
 		echo $id
 		convert -font WenquanYi-Micro-Hei textures/card_$type.png \
 		-pointsize $NAMESZ -antialias -annotate +30+$NAMEY "`sed 's:\(\S\{20\}\):\1\n:g'<<<$name`" \
 		-fill gold -antialias -annotate +28+$((NAMEY-2)) "`sed 's:\(\S\{20\}\):\1\n:g'<<<$name`" \
 		`j=330;for i in $att;do echo -n textures/att_$i.png -geometry +$j+27 -composite\ ;let j-=25;done` \
-		\( `echo pico/$id.*` -filter Box -resize 300x300\! \) -geometry +50+108 -composite \
+		\( `[ -a pico/$id.* ]&&echo pico/$id.*||ls pico/*|sort -R|head -1` -filter Box -resize 300x300\! \) -geometry +50+108 -composite \
 		-pointsize 10 -fill black -annotate +30+443 "`sed 's:\(\S\{35\}\):\1\n:g'<<<"$race$sp$desc"`" \
 		-pointsize 15 -antialias -annotate +249+542 "$atk" \
 		-antialias -annotate +331+542 "$def" \
-		-gravity NorthEast `for((i=0,j=40;i<$lv;i+=1,j+=25));do echo -n textures/$lvtype.png -geometry +$j+70 -composite\ ;done` \
+		-gravity NorthEast `for((i=0,j=40;i<$((lv&15));i+=1,j+=25));do echo -n textures/$lvtype.png -geometry +$j+70 -composite\ ;done` \
 		pics/$id.jpg
 	fi
 done
